@@ -5,16 +5,29 @@ export default function MessageInput({
 }: {
   send: (val: string) => void;
 }) {
-  const [value, setvalue] = useState("");
+  const [value, setValue] = useState("");
+
+  const handleSend = () => {
+    setValue(""); // Réinitialiser la valeur du champ texte à une chaîne vide
+    send(value); // Envoyer la valeur mise à jour à la fonction send
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSend();
+    }
+  };
+
   return (
     <div className="mt-5">
       <input
         className="rounded border-2 p-2 mr-2"
-        onChange={(e) => setvalue(e.target.value)}
-        placeholder="Type your message..."
+        onChange={(e) => setValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Ton message..."
         value={value}
       />
-      <button onClick={() => send(value)}>Send</button>
+      <button onClick={() => handleSend()}>Send</button>
     </div>
   );
 }
